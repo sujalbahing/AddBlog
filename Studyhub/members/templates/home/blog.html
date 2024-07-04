@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% block start %}
+
+    <div class="container mt-5 p-5 border rounded shadow-lg">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success text-center mb-3 ">
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="d-flex justify-content-between align-items-center">
+            <a href="" data-bs-toggle="modal" data-bs-target="#addBlogModal" class="btn btn-primary px-4 py-2 btn-sm">Add Blog</a>
+            <div>
+                <form action="" method="post" class="d-flex">
+                    {% csrf_token %}
+                    <input type="search" value="{{query}}" name="searchquery" class="form-control" placeholder="Search...">
+                    <button class="btn btn-success mx-2" name="search">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <table class="table mt-4 table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Sub Title</th>
+                <th scope="col">Image</th>
+                <th scope="col">Description</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for blog in blogs %}
+                    <tr>
+                        <th>{{blog.id}}</th>
+                        <td>{{blog.Title}}</td>
+                        <td>{{blog.Subtitle}}</td>
+                        <td>{{blog.Image}}</td>
+                        <td>{{blog.Description}}</td>
+                        <td>
+                            <a href="" data-bs-toggle="modal" data-bs-target="#updateBlogModal_{{blog.id}}"  class="btn btn-success btn-sm">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </a>
+                            <a href="" data-bs-toggle="modal" data-bs-target="#deleteBlogModal_{{blog.id}}" class="btn btn-danger btn-sm">
+                                <i class="fa-solid fa-trash"></i></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% comment %} Update Blog Model {% endcomment %}
+                    <div class="modal fade" id="updateBlogModal_{{blog.id}}" tabindex="-1" aria-labelledby="updateBlogModalLabel_{{blog.id}} " aria-hidden="true">
+                        <div class="modal-dialog">
+                            <form action=" " method="post">
+                            {% csrf_token %}
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="updateBlogModalLabel_{{blog.id}}">Add New Blog</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="hidden" name="id" value="{{blog.id}}">
+                                    <div class="">
+                                        <label for="Title">Title</label>
+                                        <input type="text" name="Title" class="form-control" value="{{blog.Title}}" id="Title" required>
+                                    </div>
+                                    <br>
+                                    <div class="">
+                                        <label for="subTitle">Sub Title</label>
+                                        <input type="text" name="subTitle" class="form-control" value="{{blog.Subtitle}}" id="subTitle" required>
+                                    </div>
+                                    <br>
+                                    <div class="">
+                                        <label for="Image">Image</label>
+                                        <input type="file" name="Image" class="form-control" value="{{blog.Image}}" id="Image" required>
+                                    </div>
+                                    <br>
+                                    <div class="">
+                                        <label for="Desc">Description</label>
+                                        <textarea name="Desc" class="form-control" value="{{blog.Description}}" id="Desc" rows="5" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary" name="update">Update Blog</button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    {% comment %} Delete Blog Model {% endcomment %}
+                    <div class="modal fade" id="deleteBlogModal_{{blog.id}}" tabindex="-1" aria-labelledby="deleteBlogModalLabel_{{blog.id}}" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <form action=" " method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="id" value="{{blog.id }}">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <p>Are you Sure? You want to delete.</p>
+                                </div> 
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger " name="delete">Delete Blog</button>
+                                </div>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor%}
+            </tbody>
+          </table>
+    </div>
+
+    <!-- Add Modal -->
+    <div class="modal fade" id="addBlogModal" tabindex="-1" aria-labelledby="addBlogModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action=" " method="post">
+            {% csrf_token %}
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="addBlogModalLabel">Add New Blog</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="">
+                        <label for="Title">Title</label>
+                        <input type="text" name="Title" class="form-control" id="Title" required>
+                    </div>
+                    <br>
+                    <div class="">
+                        <label for="subTitle">Sub Title</label>
+                        <input type="text" name="subTitle" class="form-control" id="subTitle" required>
+                    </div>
+                    <br>
+                    <div class="">
+                        <label for="Image">Image</label>
+                        <input type="file" name="Image" class="form-control" id="Image" required>
+                    </div>
+                    <br>
+                    <div class="">
+                        <label for="Desc">Description</label>
+                        <textarea name="Desc" class="form-control" id="Desc" rows="5" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" name="add">Add New Blog</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>  
+
+{% endblock %}

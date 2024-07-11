@@ -52,4 +52,4 @@ def blog_view(request):
         "blogs": blogs,
         "query": query
     }
-    return render(request, 'home/blog.html',context=context)
+    return render(request, 'home/blog.html', context=context)

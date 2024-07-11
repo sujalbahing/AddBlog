@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'members',
+    'login',
 ]
 
 MIDDLEWARE = [
@@ -120,10 +121,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIR = [
-    BASE_DIR /'static',
+    BASE_DIR / 'static',
 ]
 
 MEDIA_URL = '/media/' # the base public url of the MEDIA_ROOT directory
@@ -134,3 +135,7 @@ MEDIA_ROOT = BASE_DIR / 'media' #the full path of the directory to store the sta
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+LOGIN_REDIRECT_URL = "login:home"
+LOGOUT_REDIRECT_URL = "login:login"
